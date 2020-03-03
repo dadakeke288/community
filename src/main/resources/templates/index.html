@@ -9,6 +9,7 @@
     <script src="js/jquery-3.4.1.min.js" type="application/javascript"></script>
     <script src="js/bootstrap.js" type="application/javascript"></script>
     <script src="js/npm.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="css/main.css">
 
 </head>
 <body>
@@ -23,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">原单格柔</a>
+            <a class="navbar-brand" href="/">原单格柔</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -71,5 +72,43 @@
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>
+<div class="container-fluid publish-main-container" >
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
+            <hr>
+            <div class="media" th:each="question:${questions}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-circle"
+                             th:src="${question.user.avatarUrl}"
+                             alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}">求文</h4>
+                    <span th:text="${question.content}">类似《xxx》的……</span>
+                    <div class="media-text-desc" >
+                        <span th:text="${question.tag}"></span>
+                        <span th:text="${question.likeCount}"></span>人喜欢 -
+                        <span th:text="${question.viewCount}"></span>次浏览 -
+                        <span th:text="${question.commentCount}"></span>个回复 -
+                        <span th:text="${#dates.format(question.gmtModified,'dd MMMM yyyy')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>热门话题</h3>
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
