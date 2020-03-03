@@ -54,6 +54,8 @@ public class AuthController {
             user.setAccountId(String.valueOf(ghUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(System.currentTimeMillis());
+            user.setAvatarUrl(ghUser.getAvatar_url());
+            user.setBio(ghUser.getBio());
             userMapper.insert(user);
             // cookie
             response.addCookie(new Cookie("token",token));
