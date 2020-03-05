@@ -1,7 +1,7 @@
 body{
     background-color: #9bbda4;
 }
-.publish-main-container{
+.main-container{
     margin: 50px;
     background-color: #ffffff;
 }
@@ -17,4 +17,7 @@ body{
 .media-object{
     width: 38px;
     height: 38px;
+}
+.profile .section{
+    margin: 10px;
 }
