@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.PaginationDTO;
 import com.example.demo.dto.QuestionDTO;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
@@ -26,7 +27,9 @@ public class IndexConroller {
 
     @GetMapping("/")
     public String index(HttpServletRequest request,
-                        Model model) {
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page,
+                        @RequestParam(name = "size",defaultValue = "5") Integer size) {
         Cookie[] cookies = request.getCookies();
         if (cookies!=null && cookies.length!=0){
             for (Cookie cookie:cookies){
@@ -41,8 +44,9 @@ public class IndexConroller {
             }
         }
         //查数据，展示
-        List<QuestionDTO> questionDTOList = questionService.list();
-        model.addAttribute("questions",questionDTOList);
+        PaginationDTO paginationDto = questionService.listPage(page, size);
+        if (paginationDto!=null)
+            model.addAttribute("pagination",paginationDto);
         return "index";
     }
 }

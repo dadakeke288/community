@@ -3,6 +3,7 @@ package com.example.demo.mapper;
 import com.example.demo.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -13,4 +14,9 @@ public interface QuestionMapper {
     void insert(Question question);
     @Select("select * from post")
     List<Question> list();
+    @Select("select * from post limit #{offset},#{size}")
+    List<Question> listPage(@Param(value = "offset") Integer offset,@Param(value = "size")  Integer size);
+
+    @Select("select count(id) from post")
+    Integer count();
 }
