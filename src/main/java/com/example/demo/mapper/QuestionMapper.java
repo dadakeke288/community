@@ -2,10 +2,7 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.QuestionDTO;
 import com.example.demo.model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,4 +25,7 @@ public interface QuestionMapper {
 
     @Select("select * from post where id = #{id}")
     Question getById(@Param(value = "id") Integer id);
+
+    @Update("update post set title = #{title},content = #{content},tag=#{tag},gmt_modified=#{gmtModified},creator=#{creator} where id = #{id}")
+    void update(Question question);
 }

@@ -35,10 +35,10 @@
                 <a >
                     <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">点赞     </span>
                 </a>
-                <a th:href="@{/publish (session.id=${question.id})}">
+                <a href="#">
                     <span class="glyphicon glyphicon-comment" aria-hidden="true">评论    </span>
                 </a>
-                <a th:href="@{/publish (id=${question.id})}" th:if="${session.user!=null&&session.user.id==question.user.id}">
+                <a th:href="@{'/publish/'+${question.id}}" th:if="${session.user!=null&&session.user.id==question.user.id}">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
                 </a>
             </div>
