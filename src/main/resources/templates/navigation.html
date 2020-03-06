@@ -43,9 +43,9 @@
                     </form>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="/publish">发贴</a></li>
-                        <li class="dropdown" th:if="${session.user!= null}">
+                        <li class="dropdown" th:if="${session?.user!= null}">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false"><span th:text="${session.user.getName()}">用户名</span><span class="caret"></span></a>
+                               aria-expanded="false"><span th:text="${session?.user.getName()}">用户名</span><span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#">消息中心</a></li>
                                 <li><a href="/profile/mypub">我的发布</a></li>
@@ -55,7 +55,7 @@
                                 <li><a href="#">退出登录</a></li>
                             </ul>
                         </li>
-                        <li th:if="${session.user == null}"><a
+                        <li th:if="${session?.user == null}"><a
                                 href="http://github.com/login/oauth/authorize?client_id=29d0ee78df0b8f0c1783&redirect_url=localhost:8443&scope=user&state=1">登录</a>
                         </li>
 
