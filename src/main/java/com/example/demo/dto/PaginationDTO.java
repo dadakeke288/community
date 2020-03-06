@@ -27,8 +27,14 @@ public class PaginationDTO {
         //分页展示出来的页面放进pages
         int sums = totalPages>5?5:totalPages;
         int beg,end;
-        beg = page-(int)sums/2>0?page-(int)sums/2:1;
-        end = beg+sums-1<totalPages?beg+sums-1:totalPages;
+        if(page<=totalPages-(int)sums/2){
+            beg = page-(int)sums/2>0?page-(int)sums/2:1;
+            end = beg+sums-1<totalPages?beg+sums-1:totalPages;
+        }else {
+            end = page+(int)sums/2<totalPages?page+(int)sums/2:totalPages;
+            beg = end-sums+1>0?end-sums+1:1;
+        }
+
         pages = new ArrayList<>();
         for(int i=beg;i<=end;i++){
             pages.add(i);
