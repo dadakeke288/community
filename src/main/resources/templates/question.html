@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>DMgirl1 Community</title>
+    <link rel="stylesheet" href="/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/jquery-3.4.1.min.js" type="application/javascript"></script>
+    <script src="/js/bootstrap.js" type="application/javascript"></script>
+    <script src="/js/npm.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/main.css">
+
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+<div class="container-fluid main-container">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h3 th:text="${question.title}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h3>
+            <div class="media-text-desc">
+                # <span th:text="${question.tag}"></span> |
+                点赞数：<span th:text="${question.likeCount}"></span> |
+                阅读数：<span th:text="${question.viewCount}"></span> |
+                回复数：<span th:text="${question?.commentCount}"></span> |
+                发布时间：<span th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"></span>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question?.content}"></div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 media-text-desc question-edit-menu" >
+                <a >
+                    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true">点赞     </span>
+                </a>
+                <a >
+                    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">点赞     </span>
+                </a>
+                <a th:href="@{/publish (id=${question.id})}">
+                    <span class="glyphicon glyphicon-comment" aria-hidden="true">评论    </span>
+                </a>
+                <a th:href="@{/publish (id=${question.id})}" th:if="${session.user!=null&&session.user==question.user.id}">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+                </a>
+            </div>
+<!--            评论-->
+<!--            评论分页-->
+<!--            <nav aria-label="Page navigation">-->
+<!--                <ul class="pagination">-->
+<!--                    <li th:if="${pagination.showFirstPage}">-->
+<!--                      <a th:href="@{/(page=1)}">-->
+<!--                        <span aria-hidden="true" >&laquo;</span>-->
+<!--                      </a>-->
+<!--                    </li>-->
+<!--                    <li th:if="${pagination.showPrevious}">-->
+<!--                      <a th:href="@{/(page=${pagination.curPage-1})}">-->
+<!--                        <span aria-hidden="true">&lt;</span>-->
+<!--                      </a>-->
+<!--                    </li>-->
+<!--                    <li  th:each="page:${pagination.pages}" th:class="${page==pagination.curPage?'active':''}">-->
+<!--                        <a  th:href="@{/(page=${page})}"-->
+<!--                        ><span th:text="${page}">1 (current)</span></a>-->
+<!--                    </li>-->
+<!--                    <li th:if="${pagination.showNext}">-->
+<!--                        <a th:href="@{/(page=${pagination.curPage+1})}" aria-label="Next">-->
+<!--                            <span aria-hidden="true">&gt;</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--&lt;!&ndash;                    <li th:class="${pagination.showLastPage?'':'disabled'}">&ndash;&gt;-->
+<!--                    <li th:if="${pagination.showLastPage}">-->
+<!--                        <a th:href="@{/(page=${pagination.lastPage})}" aria-label="Next">-->
+<!--                            <span aria-hidden="true">&raquo;</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4 >楼主</h4>
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-circle"
+                             th:src="@{'/'+${question.user.avatarUrl}}"
+                             alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <span th:text="${question.user.name}"></span>
+                </div>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>相关话题</h4>
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

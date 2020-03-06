@@ -1,10 +1,12 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.QuestionDTO;
 import com.example.demo.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public interface QuestionMapper {
 
     @Select("select count(id) from post")
     Integer count();
-    @Select("select count(id) from post where creator = #{id} ")
-    Integer countUser(@Param(value = "id")  Integer id);
+    @Select("select count(id) from post where creator = #{userId} ")
+    Integer countUser(@Param(value = "userId")  Integer userId);
+
+    @Select("select * from post where id = #{id}")
+    Question getById(@Param(value = "id") Integer id);
 }

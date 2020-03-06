@@ -18,6 +18,16 @@ public class QuestionService {
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
+
+    public QuestionDTO getById(Integer id) {
+        QuestionDTO questionDTO = new QuestionDTO();
+        Question question = questionMapper.getById(id);
+        BeanUtils.copyProperties(question,questionDTO);
+        if(question.getCreator()!=null)
+            questionDTO.setUser(userMapper.findById(question.getCreator()));
+        return questionDTO;
+    }
+
     public List<QuestionDTO> list() {
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
         for(Question question:questionMapper.list()){

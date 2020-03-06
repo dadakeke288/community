@@ -18,5 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
 //        registry.addInterceptor(new ThemeInterceptor()).addPathPatterns("").excludePathPatterns("");
 //        registry.addInterceptor(new SecurityInterceptor()).addPathPatterns("");
         registry.addInterceptor(sessionInterceptor).addPathPatterns("/**");
+
+
     }
 }
