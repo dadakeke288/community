@@ -30,7 +30,6 @@
         </javaClientGenerator>
 
         <table tableName="USER" domainObjectName="User" >
-            <property name="useActualColumnNames" value="false"/>
         </table>
 <!--        <table tableName="POST" domainObjectName="User" >-->
 <!--            <property name="useActualColumnNames" value="false"/>-->

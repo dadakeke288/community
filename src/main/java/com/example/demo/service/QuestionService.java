@@ -24,7 +24,7 @@ public class QuestionService {
         Question question = questionMapper.getById(id);
         BeanUtils.copyProperties(question,questionDTO);
         if(question.getCreator()!=null)
-            questionDTO.setUser(userMapper.findById(question.getCreator()));
+            questionDTO.setUser(userMapper.selectByPrimaryKey(question.getCreator()));
         return questionDTO;
     }
 
@@ -34,7 +34,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             if(question.getCreator()==null) continue;
-            questionDTO.setUser(userMapper.findById(question.getCreator()));
+            questionDTO.setUser(userMapper.selectByPrimaryKey(question.getCreator()));
             questionDTOList.add(questionDTO);
         }
         return questionDTOList;
@@ -48,7 +48,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             if(question.getCreator()==null) continue;
-            questionDTO.setUser(userMapper.findById(question.getCreator()));
+            questionDTO.setUser(userMapper.selectByPrimaryKey(question.getCreator()));
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestions(questionDTOList);
@@ -67,7 +67,7 @@ public class QuestionService {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             if(question.getCreator()==null) continue;
-            questionDTO.setUser(userMapper.findById(question.getCreator()));
+            questionDTO.setUser(userMapper.selectByPrimaryKey(question.getCreator()));
             questionDTOList.add(questionDTO);
         }
         paginationDTO.setQuestions(questionDTOList);
