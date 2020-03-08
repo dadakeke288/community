@@ -14,3 +14,8 @@
 [Github OAuth]()
 [JAR 库：MVN Repository](https://mvnrepository.com)
 [flyway]()
+
+##脚本
+mvn flyway:migrate
+mvn mybatis.generator.overwrite=true mybatis-generator:generate
+
