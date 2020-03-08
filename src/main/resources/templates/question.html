@@ -10,6 +10,7 @@
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/npm.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/main.css">
+    <script src="/js/community.js" type="application/javascript"></script>
 
 </head>
 <body>
@@ -44,7 +45,7 @@
             </div>
 <!--            评论-->
 <!--            评论分页-->
-<!--            <nav aria-label="Page navigation">-->
+            <nav aria-label="Page navigation">
 <!--                <ul class="pagination">-->
 <!--                    <li th:if="${pagination.showFirstPage}">-->
 <!--                      <a th:href="@{/(page=1)}">-->
@@ -72,7 +73,24 @@
 <!--                        </a>-->
 <!--                    </li>-->
 <!--                </ul>-->
-<!--            </nav>-->
+            </nav>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded"
+                             th:src="${user?.avatarUrl}"
+                             alt="...">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <span th:text="${user?.name}"></span>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <input type="hidden" id="question-id" th:value="${question.id}">
+                <textarea class="form-control" rows="3" id="comment-text"></textarea>
+                <button class="btn btn-publish btn-success " type="submit" id = "ques-comment-submit">回复</button>
+            </div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
