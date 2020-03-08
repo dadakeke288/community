@@ -24,16 +24,16 @@ public class UserService {
             User dbUser = users.get(0);
             UserExample userExample1 = new UserExample();
             User updateUser = new User();
-
+            //updateUser 中传需要更新的参数
             updateUser.setGmtModified(System.currentTimeMillis());
             updateUser.setAvatarUrl(user.getAvatarUrl());
             updateUser.setName(user.getName());
             updateUser.setToken(user.getToken());
             updateUser.setBio(user.getBio());
-            //userExample1只有id值
+            //userExample1只有id值 相当于where id =
             userExample1.createCriteria().andIdEqualTo(dbUser.getId());
 
-            userMapper.updateByExample(updateUser,userExample1);
+            userMapper.updateByExampleSelective(updateUser,userExample1);
         }
     }
 }
