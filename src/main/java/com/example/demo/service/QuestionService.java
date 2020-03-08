@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.dto.PaginationDTO;
 import com.example.demo.dto.QuestionDTO;
+import com.example.demo.exception.CustomizeErrorCode;
+import com.example.demo.exception.CustomizeException;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.Question;
@@ -24,6 +26,7 @@ public class QuestionService {
     public QuestionDTO getById(Integer id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
+        if (question==null) throw new CustomizeException(CustomizeErrorCode.QUSTION_NOT_FOUND);
         BeanUtils.copyProperties(question,questionDTO);
         if(question.getCreator()!=null)
             questionDTO.setUser(userMapper.selectByPrimaryKey(question.getCreator()));
@@ -103,7 +106,10 @@ public class QuestionService {
             QuestionExample updateExample = new QuestionExample();
             updateExample.createCriteria().andIdEqualTo(question.getId());
             // update
-            questionMapper.updateByExampleSelective(updateQuestion,updateExample);
+            int updated = questionMapper.updateByExampleSelective(updateQuestion,updateExample);
+            if (updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUSTION_NOT_FOUND);
+            }
         }
     }
 }
