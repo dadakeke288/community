@@ -4,8 +4,10 @@ import com.example.demo.enums.CommentTypeEnum;
 import com.example.demo.exception.CustomizeErrorCode;
 import com.example.demo.exception.CustomizeException;
 import com.example.demo.mapper.CommentMapper;
+import com.example.demo.mapper.QuestionExtMapper;
 import com.example.demo.mapper.QuestionMapper;
 import com.example.demo.model.Comment;
+import com.example.demo.model.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ public class CommentService {
     private CommentMapper commentMapper;
     @Autowired
     private QuestionMapper questionMapper;
+    @Autowired
+    private QuestionExtMapper questionExtMapper;
 
     public void insert(Comment comment) {
         if (comment.getParentId() == null || comment.getParentId()==0){
@@ -32,9 +36,13 @@ public class CommentService {
             commentMapper.insert(comment);
         }else{
             //回复主贴
-            questionMapper.selectByPrimaryKey(comment.getParentId());
-
+            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
+            if (question==null) throw new CustomizeException(CustomizeErrorCode.QUSTION_NOT_FOUND);
+            commentMapper.insert(comment);
+            Question dbQuestion = new Question();
+            dbQuestion.setId(question.getId());
+            dbQuestion.setCommentCount(1);
+            questionExtMapper.incCommentCount(dbQuestion);
         }
-        commentMapper.insert(comment);
     }
 }
