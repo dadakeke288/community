@@ -1,4 +1,4 @@
-create table USER
+create table CUSER
 (
     ID           INT auto_increment,
     ACCOUNT_ID   VARCHAR(50),
@@ -8,7 +8,7 @@ create table USER
     GMT_MODIFIED BIGINT,
     BIO           VARCHAR(256),
     AVATAR_URL    VARCHAR(256),
-    constraint USER_PK
+    constraint CUSER_PK
         primary key (ID)
 );
 

@@ -26,7 +26,7 @@ public class PublishController {
     }
 
     @GetMapping("/publish/{id}")
-    public String edit(@PathVariable(name = "id" ) Integer id,
+    public String edit(@PathVariable(name = "id" ) Long id,
                        Model model){
         QuestionDTO question = questionService.getById(id);
         if (question==null) return "publish";
@@ -41,7 +41,7 @@ public class PublishController {
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("content") String content,
                             @RequestParam("tag") String tag,
-                            @RequestParam(value = "questionId",required = false) Integer questionId,
+                            @RequestParam(value = "questionId",required = false) Long questionId,
                             HttpServletRequest request,
                             Model model){
         // error 判断

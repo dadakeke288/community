@@ -44,4 +44,12 @@ public class PaginationDTO {
         this.showLastPage = !pages.contains(totalPages);
         this.showFirstPage = !pages.contains(1);
     }
+
+    public List<QuestionDTO> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<QuestionDTO> questions) {
+        this.questions = questions;
+    }
 }

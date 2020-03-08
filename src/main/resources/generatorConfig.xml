@@ -30,7 +30,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-        <table tableName="USER" domainObjectName="User" ></table>
+        <table tableName="CUSER" domainObjectName="User" ></table>
         <table tableName="POST" domainObjectName="Question" ></table>
         <table tableName="COMMENT" domainObjectName="Comment" ></table>
     </context>

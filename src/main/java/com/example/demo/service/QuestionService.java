@@ -26,7 +26,7 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public QuestionDTO getById(Integer id) {
+    public QuestionDTO getById(Long id) {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = questionMapper.selectByPrimaryKey(id);
         if (question==null) throw new CustomizeException(CustomizeErrorCode.QUSTION_NOT_FOUND);
@@ -68,7 +68,7 @@ public class QuestionService {
 
         return paginationDTO;
     }
-    public PaginationDTO list(Integer userId,Integer page, Integer size) {
+    public PaginationDTO list(Long userId,Integer page, Integer size) {
         PaginationDTO paginationDTO = new PaginationDTO();
         List<QuestionDTO> questionDTOList = new ArrayList<QuestionDTO>();
         Integer offset = size*(page-1);
@@ -116,7 +116,7 @@ public class QuestionService {
         }
     }
 
-    public void incView(Integer id) {
+    public void incView(Long id) {
         Question record = new Question();
         record.setId(id);
         record.setViewCount(1);
