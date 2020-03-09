@@ -24,3 +24,11 @@ body{
 .question-edit-menu span{
     color: #999;
 }
+
+.comment-message-flow .media{
+    border-top: 1px #eeeeee solid;
+    padding: 8px;
+}
+.comment-message-body .comment-menu span{
+    margin: 5px;
+}

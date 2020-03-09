@@ -17,6 +17,7 @@
 <div th:insert="~{navigation::nav}"></div>
 <div class="container-fluid main-container">
     <div class="row">
+        <!--    左边    -->
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h3 th:text="${question.title}"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h3>
             <div class="media-text-desc">
@@ -74,25 +75,54 @@
 <!--                    </li>-->
 <!--                </ul>-->
             </nav>
+            <!--  回帖人信息          -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="media-left">
-                    <a href="#">
-                        <img class="media-object img-rounded"
-                             th:src="${user?.avatarUrl}"
-                             alt="...">
-                    </a>
+                <div class="media">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-rounded"
+                                 th:src="${user?.avatarUrl}"
+                                 alt="...">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <span th:text="${user?.name}"></span>
+                    </div>
                 </div>
-                <div class="media-body">
-                    <span th:text="${user?.name}"></span>
-                </div>
+
             </div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <!--  回帖输入部分          -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="comment-section">
                 <input type="hidden" id="question-id" th:value="${question.id}">
                 <textarea class="form-control" rows="3" id="comment-text"></textarea>
                 <button class="btn btn-publish btn-success " type="submit" id = "ques-comment-submit">回复</button>
             </div>
+            <!--  全部回帖展示         -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment-message-flow" >
+                <h3><span th:text="${question?.commentCount}"></span> 个回复</h3>
+                <div class="media" th:each="comment:${comments}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle"
+                                 th:src="${comment?.user?.avatarUrl}" src="/img/default_img.png"
+                                 alt="...">
+                        </a>
+                        <span th:text="${comment?.user?.name}">匿名用户</span>
+                    </div>
+                    <div class="media-body comment-message-body">
+                        <p th:text="${comment?.content}">我是回复内容</p>
+                        <div class="comment-menu">
+                            <span class="glyphicon glyphicon-thumbs-up"></span>
+                            <span class="glyphicon glyphicon-comment"></span>
+                            <span class="pull-right" th:text="${#dates.format(comment?.gmtModified,'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <!--        右边栏 上半部分 楼主介绍-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4 >楼主</h4>
                 <div class="media-left">
@@ -107,6 +137,7 @@
                 </div>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+            <!--        右边栏 下半部分 相关话题-->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>相关话题</h4>
                 <ul>

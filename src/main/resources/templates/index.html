@@ -12,6 +12,16 @@
     <link rel="stylesheet" href="/css/main.css">
 
 </head>
+<script type="application/javascript">
+    window.onload = function () {
+        debugger;
+        var closable = window.localStorage.getItem("closable");
+        if (closable == 1){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <div th:insert="~{navigation::nav}"></div>
 <div class="container-fluid main-container" id="index-main">
