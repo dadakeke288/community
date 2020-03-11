@@ -10,4 +10,5 @@ import java.util.List;
 public interface QuestionExtMapper {
     int incView(@Param("record") Question record);
     int incCommentCount(@Param("record") Question record);
+    List<Question> selectRelated(@Param("record") Question record);
 }

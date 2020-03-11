@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.PaginationDTO;
+import com.example.demo.model.Notification;
 import com.example.demo.model.User;
+import com.example.demo.service.NotificationService;
 import com.example.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
-
+    @Autowired
+    private NotificationService notificationService;
     @Autowired
     private QuestionService questionService;
 
@@ -31,15 +34,23 @@ public class ProfileController {
         if (action.equals("mypub")){
             model.addAttribute("section","mypub");
             model.addAttribute("sectionName","我的发布");
+            //查数据，展示
+            PaginationDTO paginationDto = questionService.list(user.getId(),page,size);
+            if (paginationDto!=null)
+                model.addAttribute("pagination",paginationDto);
         }else if(action.equals("replies")){
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","动态消息");
+            //查数据，展示
+            PaginationDTO paginationDTO = notificationService.list(user.getId(),page,size);
+            Long unreadCount = notificationService.unreadCount(user.getId());
+            model.addAttribute("section","replies");
+            model.addAttribute("pagination",paginationDTO);
+            model.addAttribute("sectionName","最新回复");
+            model.addAttribute("unreadCount",unreadCount);
         }
 
-        //查数据，展示
-        PaginationDTO paginationDto = questionService.list(user.getId(),page,size);
-        if (paginationDto!=null)
-            model.addAttribute("pagination",paginationDto);
+
         return "profile";
     }
 }

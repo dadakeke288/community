@@ -1,19 +1,20 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CommentCreateDTO;
+import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.ResultDTO;
+import com.example.demo.enums.CommentTypeEnum;
 import com.example.demo.exception.CustomizeErrorCode;
 import com.example.demo.model.Comment;
 import com.example.demo.model.User;
 import com.example.demo.service.CommentService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class CommentController {
@@ -27,6 +28,9 @@ public class CommentController {
         if (user==null){
             return ResultDTO.errorOf(CustomizeErrorCode.NOT_LOGIN);
         }
+        if (commentCreateDTO == null || StringUtils.isBlank(commentCreateDTO.getContent())){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
         Comment comment = new Comment();
         comment.setParentId(commentCreateDTO.getParentId());
         comment.setContent(commentCreateDTO.getContent());
@@ -35,9 +39,17 @@ public class CommentController {
         comment.setGmtModified(System.currentTimeMillis());
         comment.setCommentator(1l);
         comment.setLikeCount(0l);
-        commentService.insert(comment);
+        comment.setCommentCount(0);
+        commentService.insert(comment,user);
 
-        return ResultDTO.okOf();
+        return ResultDTO.okOf(null);
     }
-
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.GET)
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable(name = "id") Long id,
+                              @RequestParam(name = "page",defaultValue = "1") Integer page,
+                              @RequestParam(name = "size",defaultValue = "5") Integer size){
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id,page,size,CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
+    }
 }

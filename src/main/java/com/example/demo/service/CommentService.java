@@ -2,12 +2,11 @@ package com.example.demo.service;
 
 import com.example.demo.dto.CommentDTO;
 import com.example.demo.enums.CommentTypeEnum;
+import com.example.demo.enums.NotificationEnum;
+import com.example.demo.enums.NotificationStatusEnum;
 import com.example.demo.exception.CustomizeErrorCode;
 import com.example.demo.exception.CustomizeException;
-import com.example.demo.mapper.CommentMapper;
-import com.example.demo.mapper.QuestionExtMapper;
-import com.example.demo.mapper.QuestionMapper;
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.*;
 import com.example.demo.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +24,21 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
     @Autowired
+    private CommentExtMapper commentExtMapper;
+    @Autowired
     private QuestionMapper questionMapper;
     @Autowired
     private QuestionExtMapper questionExtMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private NotificationMapper notificationMapper;
 
-
-    public List<CommentDTO> listByQustionId(Long quetionId, Integer page, Integer size) {
+    public List<CommentDTO> listByTargetId(Long quetionId, Integer page, Integer size, CommentTypeEnum typeEnum) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria().andParentIdEqualTo(quetionId)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(typeEnum.getType());
+        commentExample.setOrderByClause("gmt_create asc");
         List<Comment> comments =  commentMapper.selectByExample(commentExample);
         if (comments==null || comments.size()==0){
             return new ArrayList<>();
@@ -60,7 +63,7 @@ public class CommentService {
 
 
     @Transactional
-    public void insert(Comment comment) {
+    public void insert(Comment comment, User commentator) {
         if (comment.getParentId() == null || comment.getParentId()==0){
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -73,7 +76,18 @@ public class CommentService {
             if (dbComment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            //回复主贴
+            Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
+            if (question==null) throw new CustomizeException(CustomizeErrorCode.QUSTION_NOT_FOUND);
             commentMapper.insert(comment);
+
+            //增加评论数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
+            //增加消息提醒
+            createNotify(comment, question.getTitle(), dbComment.getCommentator(),commentator.getName(), NotificationEnum.REPLY_COMMENT);
         }else{
             //回复主贴
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -83,6 +97,23 @@ public class CommentService {
             dbQuestion.setId(question.getId());
             dbQuestion.setCommentCount(1);
             questionExtMapper.incCommentCount(dbQuestion);
+            //增加消息提醒
+            createNotify(comment,question.getTitle(),question.getCreator(),commentator.getName(),NotificationEnum.REPLY_QUESTION );
+
         }
+    }
+
+    private void createNotify(Comment comment, String outerTitle, Long receiver, String notifierName, NotificationEnum type) {
+        //增加消息提醒
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(type.getType());
+        notification.setOuterid(comment.getParentId());
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(receiver);
+        notification.setNotifierName(notifierName);
+        notification.setOuterTitle(outerTitle);
+        notificationMapper.insert(notification);
     }
 }

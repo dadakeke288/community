@@ -10,11 +10,11 @@
     <script src="/js/bootstrap.js" type="application/javascript"></script>
     <script src="/js/npm.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/main.css">
-
+    <script src="/js/moment.min.js" type="text/javascript"></script>
 </head>
 <script type="application/javascript">
     window.onload = function () {
-        debugger;
+
         var closable = window.localStorage.getItem("closable");
         if (closable == 1){
             window.close();
@@ -29,7 +29,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr>
-            <div class="media" th:each="question:${pagination.questions}">
+            <div class="media" th:each="question:${pagination.data}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-circle"
@@ -58,7 +58,7 @@
                       </a>
                     </li>
                     <li th:if="${pagination.showPrevious||pagination.lastPage<5}">
-                      <a th:href="@{/(page=${pagination.curPage-1})}">
+                      <a th:href="@{/(page=${(pagination?.curPage-1)>0?(pagination.curPage-1):1})}">
                         <span aria-hidden="true">&lt;</span>
                       </a>
                     </li>
@@ -67,7 +67,7 @@
                         ><span th:text="${page}">1 (current)</span></a>
                     </li>
                     <li th:if="${pagination.showNext||pagination.lastPage<5}">
-                        <a th:href="@{/(page=${pagination.curPage+1})}" aria-label="Next">
+                        <a th:href="@{/(page=${(pagination.curPage+1)<=pagination.lastPage?(pagination.curPage+1):pagination.lastPage})}" aria-label="Next">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>

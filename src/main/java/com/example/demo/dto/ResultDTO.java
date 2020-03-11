@@ -5,9 +5,12 @@ import com.example.demo.exception.CustomizeErrorCode;
 import com.example.demo.exception.CustomizeException;
 import org.springframework.web.servlet.ModelAndView;
 
-public class ResultDTO {
+import java.util.List;
+
+public class ResultDTO <T>{
     private Integer code;
     private String message;
+    private T data;
 
     public Integer getCode() {
         return code;
@@ -38,11 +41,19 @@ public class ResultDTO {
         return ResultDTO.errorOf(e.getCode(),e.getMessage());
     }
 
+    public T getData() {
+        return data;
+    }
 
-    public static Object okOf(){
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public static <T> ResultDTO okOf(T t){
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("请求成功");
+        resultDTO.setData(t);
         return resultDTO;
     }
 }
