@@ -5,12 +5,14 @@ $( function() {
         comment2target(questId,1,content);
     });
     $(".comment-2nd-submit").on("click",function () {
+        debugger;
         var commentId = this.getAttribute("data-id");
         var content = $("#comment2-"+commentId).val();
         comment2target(commentId,2,content);
+        var comments = $("#comment-" + id);
     });
     $(".comment-2nd-show").on("click",function () {
-        debugger;
+        // debugger;
         var id = this.getAttribute("data-id");
         var comments = $("#comment-" + id);
         var collapse = this.getAttribute("data-collapse");
@@ -38,6 +40,7 @@ $( function() {
 
         }
     });
+
 });
 
 function comment2target(targetId,type,content) {
@@ -112,9 +115,4 @@ function server2comment(id) {
             $("#comment-"+id).prepend(commentElement);
         });
     });
-}
-function comment(e) {
-    var commentId = e.getAttribute("data-id");
-    var content = $("#input-" + commentId).val();
-    comment2target(commentId, 2, content);
 }

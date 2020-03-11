@@ -42,7 +42,7 @@ public class ProfileController {
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","动态消息");
             //查数据，展示
-            PaginationDTO paginationDTO = notificationService.list(user.getId(),page,size);
+            PaginationDTO paginationDTO = notificationService.list(user.getId(),page,size*2);
             Long unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("section","replies");
             model.addAttribute("pagination",paginationDTO);

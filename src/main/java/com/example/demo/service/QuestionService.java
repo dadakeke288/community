@@ -84,7 +84,8 @@ public class QuestionService {
         questionExample.createCriteria().andCreatorEqualTo(userId);
         questionExample.setOrderByClause("gmt_modified desc");
         //
-        for(Question question:questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size))){
+        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
+        for(Question question:questions){
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question,questionDTO);
             if(question.getCreator()==null) continue;
